@@ -1,0 +1,11 @@
+examples/ids/*.id
+examples/data/*.nsf
+examples/domino-shared-academy.yaml
+examples/*-eks.yaml
+examples/*-aks.yaml
+examples/*-lke.yaml
+examples/*-k3s.yaml
+examples/*-rke2.yaml
+scripts/eks-config.yaml
+.DS_Store
+.vscode

@@ -1,0 +1,18 @@
+# Example values for the domino-shared deployment.
+# Create a copy of the file and replace the values to match your environment.
+
+image:
+  imageCredentials:
+    registry: registry.example.com
+    username: RegUserName
+    password: RegPassword
+
+ingress:
+  enabled: true
+  tls: true
+  class: nginx
+  letsEncryptEnabled: true
+
+certManager:
+  leCertificate: staging     # staging | prod
+  leEmail: name@example.com

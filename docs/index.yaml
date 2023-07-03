@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  domino-shared:
+  - apiVersion: v2
+    appVersion: 12.02.0
+    created: "2023-07-03T17:26:34.059848+02:00"
+    description: A Helm chart for HCL Domino server - shared elements
+    digest: 052fb0d6b9914a8fe037bdee8af017815033a257c953de82c3acc815fc7c4433
+    home: https://github.com/HCL-TECH-SOFTWARE/domino-charts
+    maintainers:
+    - email: petr.kunc@gmail.com
+      name: Petr Kunc
+      url: http://petrkunc.net
+    name: domino-shared
+    sources:
+    - https://github.com/HCL-TECH-SOFTWARE/domino-charts/tree/main/charts/domino
+    type: application
+    urls:
+    - domino-shared-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-07-03T17:26:34.059455+02:00"

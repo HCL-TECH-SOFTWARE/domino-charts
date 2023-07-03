@@ -1,0 +1,17 @@
+{{- $ns := .Release.Namespace -}}
+
+Thank you for installing HCL Domino - shared elements.
+
+What was deployed:
+
+🪪  Credentials
+Secret name:                  regcred
+Private registry:             {{ .Values.image.imageCredentials.registry }}
+
+{{ if .Values.certManager.createIssuer -}}
+🔑 Certificate issuer (for cert-manager)
+Cluster Certificate Issuer:   letsencrypt
+Environment:                  {{ .Values.certManager.leCertificate }}
+{{- end }}
+
+These elements will be used by all Domino pods deployed in the same namespace "{{ $ns }}".
