@@ -1,0 +1,44 @@
+{{- $ns := .Release.Namespace -}}
+{{- $ingressName := printf "%s-%s" .Release.Name .Chart.Name -}}
+{{- $serviceName := printf "%s-%s-ext" .Release.Name .Chart.Name -}}
+
+Thank you for installing HCL Domino server.
+
+The release name:   {{ .Release.Name }}
+Namespace:          {{ $ns }}
+Domino server name: {{ .Values.domino.server.name }}/{{ .Values.domino.server.domainName }}
+Host name:          {{ .Values.domino.network.hostName }}
+
+----
+
+Please wait a few seconds until the Domino server is fully initialized.
+After installation is complete, you can access the server.
+
+{{ if .Values.ingress.enabled -}}
+🌐 ACCESS - WEB TRAFFIC
+Domino is configured to use an Ingress Controller as a reverse proxy for its web interface.
+Run this command and get the IPs:
+  $ kubectl get --namespace {{ $ns }} ingress {{ $ingressName }}  -o jsonpath="{range .status.loadBalancer.ingress[*]}{.*}{'\n'}{end}"
+Protocols:
+  HTTP (port 80)
+  HTTPS (port 443)
+{{- end }}
+
+{{ if .Values.service.enabled -}}
+🖥️  ACCESS - NON WEB TRAFFIC
+Domino is configured to use a service type {{ .Values.service.type | quote }} to expose its protocols:
+Run this command and get the IPs:
+{{- if eq .Values.service.type "LoadBalancer" }}
+  $ kubectl get --namespace {{ $ns }} service {{ $serviceName }} -o jsonpath="{range .status.loadBalancer.ingress[*]}{.*}{'\n'}{end}"
+{{- end }}
+{{- if eq .Values.service.type "ClusterIP" }}
+  $ kubectl get --namespace {{ $ns }} service {{ $serviceName }} -o jsonpath="{.spec.externalIPs[*]}{'\n'}"
+{{- end }}
+Protocols:
+  {{ if .Values.service.nrpc.expose }}NRPC (port {{ .Values.service.nrpc.port }}){{ end }}
+  {{ if .Values.service.http.expose }}HTTP (port {{ .Values.service.http.port }}){{ end }}
+  {{ if .Values.service.https.expose }}HTTPS (port {{ .Values.service.https.port }}){{ end }}
+{{- end }}
+
+ℹ️  NOTE:
+Set the DNS records to point to these IP addresses or hostnames to allow access for your users.

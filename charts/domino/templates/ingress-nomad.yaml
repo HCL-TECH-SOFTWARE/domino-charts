@@ -1,0 +1,37 @@
+{{- if .Values.ingress.nomad.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-nomad
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+
+  annotations:
+    {{- if .Values.ingress.letsEncryptEnabled }}
+    cert-manager.io/cluster-issuer: letsencrypt
+    {{- end }}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+spec:
+  ingressClassName: {{ .Values.ingress.class }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - secretName: {{ .Release.Name }}-{{ .Chart.Name }}-nomad-tls
+      hosts:
+        - {{ .Values.ingress.nomad.hostname }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.nomad.hostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-{{ .Chart.Name }}
+                port:
+                  number: 9443
+{{- end }}

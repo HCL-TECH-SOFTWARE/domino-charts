@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: hcl-domino
+    server: {{ .Values.domino.server.name | lower }}
+    type: headless
+    {{- include "common.labels" . | nindent 4 }}
+
+spec:
+  type: ClusterIP
+  clusterIP: None     # this makes the service "headless"
+  selector:
+    app: hcl-domino
+    server: {{ .Values.domino.server.name | lower }}
+
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+    - name: nrpc
+      protocol: TCP
+      port: 1352
+      targetPort: 1352
+    - name: nomad
+      protocol: TCP
+      port: 9443
+      targetPort: 9443
+
+---
+
+{{- if .Values.service.enabled }}
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-ext
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: hcl-domino
+    server: {{ .Values.domino.server.name | lower }}
+    type: external
+    {{- include "common.labels" . | nindent 4 }}
+
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: hcl-domino
+    server: {{ .Values.domino.server.name | lower }}
+
+  ports:
+    {{- if .Values.service.http.expose }}
+    - name: http
+      protocol: TCP
+      port: {{ .Values.service.http.port }}
+      targetPort: 80
+    {{- end }}
+    {{- if .Values.service.https.expose }}
+    - name: https
+      protocol: TCP
+      port: {{ .Values.service.https.port }}
+      targetPort: 443
+    {{- end }}
+    {{- if .Values.service.nrpc.expose }}
+    - name: nrpc
+      protocol: TCP
+      port: {{ .Values.service.nrpc.port }}
+      targetPort: 1352
+    {{- end }}
+    {{- if .Values.service.nomad.expose }}
+    - name: nomad
+      protocol: TCP
+      port: {{ .Values.service.nomad.port }}
+      targetPort: 9443
+    {{- end }}
+
+  {{- if and (eq .Values.service.type "ClusterIP") .Values.service.externalIP }}
+  externalIPs:
+    - {{ .Values.service.externalIP }}
+  {{- end }}
+
+{{- end }}

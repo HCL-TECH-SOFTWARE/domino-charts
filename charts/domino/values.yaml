@@ -1,0 +1,162 @@
+######################################################
+# Licensed Materials - Property of HCL Technologies
+#  HCL Domino
+#  (C) Copyright HCL Technologies Limited 1996, 2023
+######################################################
+
+# Default values used by the domino helm chart.
+
+image:
+  # -- Name of the Domino server container image
+  name: hclcom/domino
+  # -- Tag of the Domino server container image (usually a version number or "latest")
+  tag: latest
+  imageCredentials:
+    # -- Hostname of a private container registry
+    registry: registry.example.com
+  # -- When should be image pulled from the registry: "Always", "IfNotPresent", "Never"
+  imagePullPolicy: IfNotPresent
+
+domino:
+  server:
+    # -- Server type ("first" or "additional" )
+    type: first
+    # -- Server common name ("Domino" in "Domino/DemoOrg @ DemoDomain")
+    name: Domino
+    # -- Domain name ("DemoDomain" in "Domino/DemoOrg @ DemoDomain")
+    domainName: DemoDomain
+    # -- Server title (description)
+    serverTitle: Demo Server
+    # -- Set "true" if you want to use the existing server.id
+    useExistingServerID: false
+    # -- Server ID filename. Used when useExistingServerID = true.
+    idFileName: server.id
+  network:
+    # -- Server DNS hostname
+    hostName: domino.example.com
+  org:
+    # -- Organization name ("DemoOrg" in "Domino/DemoOrg @ DemoDomain")
+    orgName: DemoOrg
+    # -- Set "true" if you want to use existing cert.id
+    useExistingCertifierID: false
+    # -- Cert ID filename. Used when useExistingCertifierID = true.
+    idFileName: cert.id
+    # -- Cert ID password
+    certifierPassword: SecretOrgPassw0rd
+  admin:
+    # -- Administrator first name
+    firstName: Super
+    # -- Administrator last name
+    lastName: Admin
+    # -- Set "true" if you want to use the existing admin.id
+    useExistingAdminID: false
+    # -- Admin ID filename. Used when useExistingAdminID = true.
+    idFileName: admin.id
+    # -- Admin ID password
+    password: SecretAdminPassw0rd
+  existingServer:
+    # -- Server common name of the existing server to use to replicate the directory (example: "AdminServer")
+    CN: ""
+    # -- Server DNS hostname or IP address of the existing server.
+    hostNameOrIP: ""
+  idVault:
+    # -- ID Vault password
+    idPassword: SecretVaultPassw0rd
+  appConfiguration:
+    # -- Filename of the NSF database where the webLoginForm is stored (Example: iwaredir.nsf, domcfg.nsf)
+    webLoginFormDB: domcfg.nsf
+    # -- Name of the form that should be used as a login form (Example: DWALoginForm, $$LoginUserFormMFA)
+    webLoginForm: $$LoginUserFormMFA
+
+install:
+    # -- Path to local ID files. Used when you set true in reusing Server ID, Cert ID or Admin ID.
+    # idsLocalDir: "ids"
+  # -- Path in a pod where IDs are mounted during the pod creation
+  idsMountedDir: /local/ids
+  # -- Path in a pod where IDs are copied from a mounted directory
+  idsDir: /tmp
+  # -- Set "true" to keep existing IDs mounted to the pod. 
+  # Set "false" when you do not want to mount existing IDs to the pod anymore. 
+  # Tip: use "true" during the first setup, then change to "false".
+  mountIds: false
+  # -- Path (filesystem or URL) to a zip file that will be downloaded and extracted into the dominodata directory
+  CustomNotesdataZip: ""
+
+rbac:
+  # -- Should a role for RBAC be created?
+  create: true
+
+serviceAccount:
+  # -- Should a service account be created?
+  create: true
+  # -- The name of the service account. A name is generated using the release name if not set and 'create' is true.
+  name: ""
+
+pod:
+  # -- If set, Domino is deployed only to the node that matches the label. Example: "domino: castor"
+  nodeSelector: {}
+
+logs:
+  # -- Send Domino console log to the pod's standard output (so it could be read using kubectl logs)
+  dominoStdOut: "yes"
+
+service:
+  # -- Should some ports be exposed outside of the cluster (by exposing the port, not through the Ingress controller)?
+  enabled: false
+  # -- Service type ("LoadBalancer" or "ClusterIP")
+  type: LoadBalancer
+  # -- Used only when service.type = ClusterIP. Enter the IP where the service should be exposed.
+  externalIP: 10.20.30.40
+  http:
+    # -- Should HTTP be exposed directly?
+    expose: false
+    # -- Exposed HTTP port number (probably NOT 80, because it is usually occupied by Ingress Controller service)
+    port: 3080
+  https:
+    # -- Should HTTPS be exposed directly?
+    expose: false
+    # -- Exposed HTTP port number (probably NOT 443, because it is usually occupied by Ingress Controller service)
+    port: 3443
+  nrpc:
+    # -- Should NRPC be exposed directly?
+    expose: false
+    # -- Exposed NRPC port number (could be 1352)
+    port: 1352
+  nomad:
+    # -- Should Nomad be exposed directly?
+    expose: false
+    # -- Exposed Nomad port number (could be 1352)
+    port: 9443
+
+ingress:
+  # -- Should Domino HTTP traffic be exposed through Ingress Controller?
+  enabled: true
+  # -- Enable TLS in Ingress Rule? (If "true" Ingress will provide handle TLS communication with the clients.)
+  tls: false
+  # -- Ingress class. Must match "kubectl get ingressclass".
+  class: nginx
+  # -- Should Ingress Rule use Let's Encrypt as a Certificate Issuer?
+  letsEncryptEnabled: false
+  nomad:
+    # -- Should Nomad Web traffic be exposed through Ingress Controller? (It requires a dedicated hostname.)
+    enabled: false
+    # -- Hostname for Nomad web access (Usually different than a hostname for a classic Domino HTTP access.)
+    hostname: domino-nomad.example.com
+
+certManager:
+  # -- Should ClusterIssuer resource for Let's Encrypt be crearted?
+  createIssuer: true
+  # -- Type of Let's Encrypt certificate authority ("staging" or "prod")
+  leCertificate: staging
+  # -- Email used when creating a profile for Let's Encrypt
+  leEmail: name@example.com
+
+persistence:
+  # -- Should dominodata volume be persistent?
+  # Warning: if you specify "false" your Domino data will be DELETED each time you restart the pod!
+  enabled: false
+  # -- Specify the StorageClass used to provision the volume. Must be one of the classes in "kubectl get storageclass". 
+  # If not specified, a default StorageClass is used (if exists).
+  storageClass: ''
+  # -- Size of the data volume (/local/notesdata)
+  size: 4Gi

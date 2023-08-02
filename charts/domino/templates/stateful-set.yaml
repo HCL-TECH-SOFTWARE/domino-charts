@@ -1,0 +1,162 @@
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: hcl-domino
+    server: {{ .Values.domino.server.name | lower }}
+    role: primary
+    {{- include "common.labels" . | nindent 4 }}
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hcl-domino       # has to match .spec.template.metadata.labels
+      server: {{ .Values.domino.server.name | lower }}
+  serviceName: {{ .Release.Name }}-domino   # has to match .metadata.name in Headless Service definition
+  template:
+    metadata:
+      labels:
+        app: hcl-domino     # has to match .spec.selector.matchLabels
+        server: {{ .Values.domino.server.name | lower }}
+    spec:
+      serviceAccountName: {{ include "domino.serviceAccountName" . }}
+      {{- if .Values.pod.nodeSelector }}
+      nodeSelector: 
+        {{- .Values.pod.nodeSelector | toYaml | nindent 8 }}
+      {{- end }}
+      imagePullSecrets:
+        - name: regcred
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+
+      containers:
+        - name: domino
+          image: "{{ .Values.image.imageCredentials.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+
+          env:
+            - name: LANG
+              value: "en_US.UTF-8"
+            - name: DOMINO_DOCKER_STDOUT
+              value: {{ .Values.logs.dominoStdOut | quote }}
+            - name: SetupAutoConfigure
+              value: "1"
+            - name: SetupAutoConfigureParams
+              value: "/etc/domino-cfg/auto_config.json"
+            - name: DominoConfigRestartWaitTime 
+              value: "30"
+            - name: DominoConfigRestartWaitString 
+              value: "Server started on physical node"
+            {{- if .Values.install.CustomNotesdataZip }}
+            - name: CustomNotesdataZip 
+              value: {{ .Values.install.CustomNotesdataZip | quote }}
+            {{- end }}
+
+          securityContext:
+            capabilities:
+              add: ["SYS_PTRACE"]
+            runAsNonRoot: true
+            runAsUser: 1000
+
+          volumeMounts:
+            - name: dominodata
+              mountPath: /local
+            - name: autoconfig
+              mountPath: /etc/domino-cfg
+            - name: notes-ids
+              mountPath: {{ .Values.install.idsMountedDir }}
+
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - 'sh'
+                  - '-c'
+                  - >
+                    if [ "$(ls -A {{ .Values.install.idsMountedDir }}/..data)" ] ; then
+                      cp {{ .Values.install.idsMountedDir }}/* {{ .Values.install.idsDir }}
+                    fi;
+
+          ports:
+                - containerPort: 1352
+                  protocol: TCP
+                - containerPort: 9443
+                  protocol: TCP
+                - containerPort: 80
+                  protocol: TCP
+                - containerPort: 443
+                  protocol: TCP
+
+          livenessProbe:
+            exec:
+              command:
+                - /domino_docker_healthcheck.sh
+            initialDelaySeconds: 60
+            periodSeconds: 20
+
+          readinessProbe:
+            exec:
+              command:
+                - /domino_docker_healthcheck.sh
+                - ready
+            initialDelaySeconds: 60
+            periodSeconds: 20
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+
+      {{ if .Values.persistence.enabled }}
+      # this init container is a work-around to change file-system permissions for some local stoarge providers
+      initContainers:
+        - name: domino-startup
+          image: busybox:latest
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          command: [ 'sh', '-c', 'chmod 777 /local' ]
+          securityContext:
+            privileged: true
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - name: dominodata
+              mountPath: /local
+      {{- end }}
+
+      volumes:
+        - name: autoconfig
+          configMap:
+            name: {{ .Release.Name }}-autoconfig
+        - name: notes-ids
+          secret:
+            secretName: {{ .Release.Name }}-ids
+        {{- if not .Values.persistence.enabled }}
+        - name: dominodata
+          emptyDir: {}
+        {{- end }}
+
+  {{ if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: dominodata
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.persistence.storageClass }}
+        storageClassName: {{ .Values.persistence.storageClass }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}
+  {{- end }}

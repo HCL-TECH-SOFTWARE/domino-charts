@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+
+  annotations:
+    {{- if .Values.ingress.letsEncryptEnabled }}
+    cert-manager.io/cluster-issuer: letsencrypt
+    {{- end }}
+    # alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/liveness
+    # kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+spec:
+  ingressClassName: {{ .Values.ingress.class }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
+      hosts:
+        - {{ .Values.domino.network.hostName }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.domino.network.hostName }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-{{ .Chart.Name }}
+                port:
+                  number: 80
+{{- end }}

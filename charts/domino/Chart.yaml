@@ -1,0 +1,14 @@
+apiVersion: v2
+name: domino
+description: 'A Helm chart for HCL Domino server'
+type: application
+version: 0.1.0
+appVersion: '12.02.0'
+home: 'https://github.com/pkunc/domino-charts'
+sources: 
+  - 'https://github.com/pkunc/domino-charts/tree/main/charts/domino'
+icon: https://opensource.hcltechsw.com/domino-container/assets/images/svg/DominoIcon.svg
+maintainers:
+  - name: 'Petr Kunc'
+    email: 'petr.kunc@gmail.com'
+    url: 'http://petrkunc.net'
