@@ -14,7 +14,7 @@ A Helm chart for HCL Domino server - shared elements
 ### Add Helm Repository
 
 ```
-helm repo add hclsoftware https://HCL-TECH-SOFTWARE.github.io/domino-charts/
+helm repo add domino-charts https://HCL-TECH-SOFTWARE.github.io/domino-charts/
 helm repo update
 ```
 
@@ -23,7 +23,7 @@ helm repo update
 - Create your config file with values. You can copy one of the demo files in the `examples` folder and update the values.
 - Or you can download the default values file and update it:
 ```
-helm show values hclsoftware/domino-shared > shared-values.yaml
+helm show values domino-charts/domino-shared > shared-values.yaml
 ```
 
 ### Install the chart
@@ -31,7 +31,7 @@ helm show values hclsoftware/domino-shared > shared-values.yaml
 Run the command:
 
 ```
-helm upgrade <shared_name> hclsoftware/domino-shared \
+helm upgrade <shared_name> domino-charts/domino-shared \
   --install \
   --namespace <namespace> \
   --create-namespace \
@@ -43,7 +43,7 @@ helm upgrade <shared_name> hclsoftware/domino-shared \
 **Example:**
 
 ```
-helm upgrade domino-shared hclsoftware/domino-shared \
+helm upgrade domino-shared domino-charts/domino-shared \
   --install \
   --namespace domino \
   --create-namespace \
