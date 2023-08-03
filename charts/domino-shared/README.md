@@ -80,4 +80,4 @@ The following table lists the configurable parameters of the Domino chart and th
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Petr Kunc | <petr.kunc@gmail.com> | <http://petrkunc.net> |
+| Petr Kunc | <petr.kunc@hcl.com> | <http://petrkunc.net> |
