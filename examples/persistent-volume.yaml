@@ -1,0 +1,16 @@
+# DEMO CONFIG FILE
+# Enabling Persistent Volume for a Domino pod
+
+image:
+  imageCredentials:
+    registry: registry.showcase.blue
+
+persistence:
+  enabled: true
+  # Possible values for storageClass:
+  #     default (many providers mark one Storage Class as default - AKS, GKE2)
+  #     local-path (K3s)
+  #     linode-block-storage-retain (Linode)
+  #     longhorn (Longhorn)
+  storageClass: local-path
+  size: 4Gi

@@ -1,0 +1,15 @@
+# DEMO CONFIG FILE
+# Exposing Nomad server running on Domino through Ingress Controller
+
+image:
+  imageCredentials:
+    registry: registry.showcase.blue
+
+ingress:
+  enabled: true
+  tls: true
+  class: nginx
+  letsEncryptEnabled: true
+  nomad:
+    enabled: true
+    hostname: alpha-nomad.space.demo

@@ -1,0 +1,12 @@
+# DEMO CONFIG FILE
+# Exposing Domino web access through Ingress Controller
+
+image:
+  imageCredentials:
+    registry: registry.showcase.blue
+
+ingress:
+  enabled: true
+  tls: true
+  class: nginx
+  letsEncryptEnabled: true

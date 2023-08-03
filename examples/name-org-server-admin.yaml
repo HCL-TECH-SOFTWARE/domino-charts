@@ -1,0 +1,24 @@
+# DEMO CONFIG FILE
+# Setting Organization name, Server name and Administrator name
+#
+# Domino server name:         Alpha/Space
+# Domino domain name:         @Space
+# Host name:                  alpha.space.demo
+
+image:
+  imageCredentials:
+    registry: registry.showcase.blue
+
+domino:
+  server:
+    name: Alpha
+    domainName: Space
+  network:
+    hostName: alpha.space.demo
+  org:
+    orgName: Space
+    certifierPassword: password
+  admin:
+    firstName: Domino
+    lastName: Administrator
+    password: password

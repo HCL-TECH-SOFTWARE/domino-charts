@@ -1,0 +1,13 @@
+# DEMO CONFIG FILE
+# Exposing Domino NRPC protocol (port 1352) via a LoadBalancer service
+
+image:
+  imageCredentials:
+    registry: registry.showcase.blue
+
+service:
+  enabled: true
+  type: LoadBalancer
+  nrpc:
+    expose: true
+    port: 1352

@@ -1,0 +1,33 @@
+# DEMO CONFIG FILE
+# Setting Organization name, Server name and Administrator name,
+# and using existing ID for Organization and Administrator.
+# Server ID is created.
+#
+# Domino server name:         Alpha/Space
+# Domino domain name:         @Space
+# Host name:                  alpha.space.demo
+
+image:
+  imageCredentials:
+    registry: registry.showcase.blue
+
+domino:
+  server:
+    name: Alpha
+    domainName: Space
+  network:
+    hostName: alpha.space.demo
+  org:
+    orgName: Space
+    useExistingCertifierID: true
+    idFileName: cert.id
+    certifierPassword: password
+  admin:
+    firstName: Domino
+    lastName: Administrator
+    useExistingAdminID: true
+    idFileName: admin.id
+    password: password
+
+install:
+  mountIds: true
