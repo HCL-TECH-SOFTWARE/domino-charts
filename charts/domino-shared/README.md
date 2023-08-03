@@ -14,7 +14,7 @@ A Helm chart for HCL Domino server - shared elements
 ### Add Helm Repository
 
 ```
-helm repo add domino-charts https://HCL-TECH-SOFTWARE.github.io/domino-charts/
+helm repo add domino-charts https://opensource.hcltechsw.com/domino-charts/
 helm repo update
 ```
 

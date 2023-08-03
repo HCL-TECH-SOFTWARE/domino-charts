@@ -3,10 +3,10 @@ entries:
   domino:
   - apiVersion: v2
     appVersion: 12.02.0
-    created: "2023-08-03T11:54:41.451306+02:00"
+    created: "2023-08-03T15:46:54.180949+02:00"
     description: A Helm chart for HCL Domino server
-    digest: 9d25f536e98ad6e7faa055a508cdc763d4917bba16547128ddca8681e4df3bd4
-    home: https://github.com/pkunc/domino-charts
+    digest: 65a10077c277550e06d170742a8eae4f9bfef07662bc1156b9a724d478015329
+    home: https://opensource.hcltechsw.com/domino-charts/
     icon: https://opensource.hcltechsw.com/domino-container/assets/images/svg/DominoIcon.svg
     maintainers:
     - email: petr.kunc@hcl.com
@@ -14,7 +14,7 @@ entries:
       url: http://petrkunc.net
     name: domino
     sources:
-    - https://github.com/pkunc/domino-charts/tree/main/charts/domino
+    - https://github.com/HCL-TECH-SOFTWARE/domino-charts/tree/main/charts/domino
     type: application
     urls:
     - domino-0.1.0.tgz
@@ -22,9 +22,9 @@ entries:
   domino-shared:
   - apiVersion: v2
     appVersion: 12.02.0
-    created: "2023-08-03T11:54:41.451552+02:00"
+    created: "2023-08-03T15:46:54.181154+02:00"
     description: A Helm chart for HCL Domino server - shared elements
-    digest: 29b81c9a151b968f4d1ca0003f5e121c0603bf8b8d9cec6cbf8cc2aaaf9a81cd
+    digest: 7a4d69f97c8e2091d06673df16414a658491c2cf9eaa5ccf8352e14f222a6123
     home: https://github.com/HCL-TECH-SOFTWARE/domino-charts
     icon: https://opensource.hcltechsw.com/domino-container/assets/images/svg/DominoIcon.svg
     maintainers:
@@ -38,4 +38,4 @@ entries:
     urls:
     - domino-shared-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-03T11:54:41.450654+02:00"
+generated: "2023-08-03T15:46:54.180277+02:00"

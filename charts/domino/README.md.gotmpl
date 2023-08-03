@@ -13,16 +13,16 @@
 - [Persistent Volumes (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) provisioner support in the underlying infrastructure.
 - Domino container image, created with the [domino-container](https://github.com/HCL-TECH-SOFTWARE/domino-container) building script and uploaded to a private container registry.
 
-Optional (and recommended):
-- [Ingress NGINX](../../scripts/deploy-nginx.sh)
-- [cert-manager](../../scripts/deploy-cert-manager.sh) (to manage Let's Encrypt certificates for Ingress NGINX)
+Optional:
+- [Ingress NGINX](https://kubernetes.github.io/ingress-nginx/)
+- [cert-manager](https://cert-manager.io/) (to manage Let's Encrypt certificates for Ingress NGINX)
 
 ## Installation
 
 ### Add Helm Repository
 
 ```
-helm repo add domino-charts https://pkunc.github.io/domino-charts/
+helm repo add domino-charts https://opensource.hcltechsw.com/domino-charts/
 helm repo update
 ```
 
