@@ -1,3 +1,11 @@
+---
+layout: default
+title: Examples
+nav_order: 2
+description: "Configuration Examples"
+has_children: false
+---
+
 # Domino deployments – Examples
 
 Use the following examples as an inspiration for creating your own values files for deploying the Domino server according to your needs.

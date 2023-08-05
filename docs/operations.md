@@ -1,4 +1,12 @@
-# Operations - admins tasks
+---
+layout: default
+title: Operations
+nav_order: 3
+description: "Operations - admin tasks"
+has_children: false
+---
+
+# Operations - admin tasks
 
 Tips for admin operations and maintenance tasks for Domino on Kubernetes.
 
