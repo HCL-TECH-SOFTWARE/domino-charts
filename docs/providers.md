@@ -1,6 +1,14 @@
+---
+layout: default
+title: Providers
+nav_order: 3
+description: "Kubernetes providers"
+has_children: false
+---
+
 # Kubernetes providers - Notes
 
-My comments to the different Kubernetes providers or Kubernetes distributions.
+Quick comments to the different Kubernetes providers or Kubernetes distributions.
 
 ## K3s
 - Great for the first experiments with self-hosted Kubernetes. Low HW requirements, easy installation.
