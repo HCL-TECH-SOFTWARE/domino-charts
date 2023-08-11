@@ -146,7 +146,7 @@ The following table lists the configurable parameters of the Domino chart and th
 | service.nrpc.port | int | `1352` | Exposed NRPC port number (could be 1352) |
 | service.type | string | `"LoadBalancer"` | Service type ("LoadBalancer" or "ClusterIP") |
 | serviceAccount.create | bool | `true` | Should a service account be created? |
-| serviceAccount.name | string | `""` | The name of the service account. A name is generated using the release name if not set and 'create' is true. |
+| serviceAccount.name | string | `""` | The name of the service account. A name is generated using the chart name ('domino', by default) if not set and 'create' is true. |
 
 ## Maintainers
 

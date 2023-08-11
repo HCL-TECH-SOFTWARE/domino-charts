@@ -89,7 +89,7 @@ rbac:
 serviceAccount:
   # -- Should a service account be created?
   create: true
-  # -- The name of the service account. A name is generated using the release name if not set and 'create' is true.
+  # -- The name of the service account. A name is generated using the chart name ('domino', by default) if not set and 'create' is true.
   name: ""
 
 pod:
