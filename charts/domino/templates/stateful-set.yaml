@@ -22,6 +22,10 @@ spec:
       labels:
         app: hcl-domino     # has to match .spec.selector.matchLabels
         server: {{ .Values.domino.server.name | lower }}
+      {{- with .Values.pod.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ include "domino.serviceAccountName" . }}
       {{- if .Values.pod.nodeSelector }}
@@ -111,12 +115,7 @@ spec:
             periodSeconds: 20
 
           resources:
-            requests:
-              memory: "512Mi"
-              cpu: "250m"
-            limits:
-              memory: "4Gi"
-              cpu: "2000m"
+            {{- toYaml .Values.pod.resources | nindent 12 }}
 
       {{ if .Values.persistence.enabled }}
       # this init container is a work-around to change file-system permissions for some local stoarge providers
@@ -132,6 +131,15 @@ spec:
           volumeMounts:
             - name: dominodata
               mountPath: /local
+      {{- end }}
+
+      {{- with .Values.pod.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
 
       volumes:

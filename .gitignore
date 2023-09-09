@@ -1,10 +1,11 @@
 examples/ids/*.id
 examples/data/*.nsf
-examples/domino-shared-academy.yaml
+examples/domino-shared-showcase.yaml
 examples/*-eks.yaml
 examples/*-aks.yaml
 examples/*-lke.yaml
 examples/*-k3s.yaml
+examples/*-k3d.yaml
 examples/*-rke2.yaml
 scripts/eks-config.yaml
 .DS_Store

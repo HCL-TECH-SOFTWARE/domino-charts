@@ -31,6 +31,8 @@ domino:
     useExistingServerID: false
     # -- Server ID filename. Used when useExistingServerID = true.
     idFileName: server.id
+    # -- Domino tasks that you want to run at the server. The content will be set as ServerTasks= in the notes.ini.
+    serverTasks: replica,router,update,amgr,adminp,http,certmgr -ACCEPT_TOU_AUTO_CONFIG,nomad
   network:
     # -- Server DNS hostname
     hostName: domino.example.com
@@ -93,8 +95,25 @@ serviceAccount:
   name: ""
 
 pod:
-  # -- If set, Domino is deployed only to the node that matches the label. Example: "domino: castor"
+  # -- If set, Domino is deployed only to the node that matches the label. Example: "domino: alpha"
   nodeSelector: {}
+  # -- Annotations to add to the pod definition. Example: "app: domino"
+  annotations: {}
+  # -- Pod affinity.
+  affinity: {}
+  # -- Pod tollerations.
+  tolerations: {}
+  resources:
+    requests:
+      # -- Minimum amount of pod CPU
+      cpu: "2000m"
+      # -- Minimum amount of pod memory
+      memory: "2Gi"
+    limits:
+      # -- Maximum amount of pod CPU
+      cpu: "3000m"
+      # -- Maximum amount of pod memory
+      memory: "4Gi"
 
 logs:
   # -- Send Domino console log to the pod's standard output (so it could be read using kubectl logs)

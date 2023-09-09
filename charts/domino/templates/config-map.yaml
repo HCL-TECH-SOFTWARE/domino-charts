@@ -19,7 +19,7 @@ data:
           "IDFilePath": "{{ .Values.install.idsDir }}/{{ .Values.domino.server.idFileName }}",
           "password": null,
           "minPasswordLength": 0,
-          "serverTasks": "replica,router,update,amgr,adminp,http,certmgr -ACCEPT_TOU_AUTO_CONFIG,nomad"
+          "serverTasks": "{{ .Values.domino.server.serverTasks }}"
         },
 
         "network": {
