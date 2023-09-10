@@ -9,6 +9,7 @@ metadata:
     {{- include "common.labels" . | nindent 4 }}
 
   annotations:
+    {{- include "common.annotations" . | nindent 4 }}
     {{- if .Values.ingress.letsEncryptEnabled }}
     cert-manager.io/cluster-issuer: letsencrypt
     {{- end }}

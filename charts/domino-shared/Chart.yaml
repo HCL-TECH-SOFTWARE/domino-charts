@@ -10,9 +10,9 @@ description: 'A Helm chart for HCL Domino server - shared elements'
 type: application
 version: 0.1.0
 appVersion: '12.02.0'
-home: 'https://github.com/HCL-TECH-SOFTWARE/domino-charts'
+home: 'https://opensource.hcltechsw.com/domino-charts/'
 sources: 
-  - 'https://github.com/HCL-TECH-SOFTWARE/domino-charts/tree/main/charts/domino'
+  - 'https://github.com/HCL-TECH-SOFTWARE/domino-charts/tree/main/charts/domino-shared'
 icon: https://opensource.hcltechsw.com/domino-charts/assets/images/domino-icon.svg
 maintainers:
   - name: 'Petr Kunc'

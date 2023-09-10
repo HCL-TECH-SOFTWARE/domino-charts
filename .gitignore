@@ -10,3 +10,4 @@ examples/*-rke2.yaml
 scripts/eks-config.yaml
 .DS_Store
 .vscode
+.monokle

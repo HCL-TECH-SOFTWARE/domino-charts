@@ -9,6 +9,8 @@ metadata:
     server: {{ .Values.domino.server.name | lower }}
     role: primary
     {{- include "common.labels" . | nindent 4 }}
+  annotations:
+    {{- include "common.annotations" . | nindent 4 }}
 
 spec:
   replicas: 1
@@ -22,10 +24,11 @@ spec:
       labels:
         app: hcl-domino     # has to match .spec.selector.matchLabels
         server: {{ .Values.domino.server.name | lower }}
-      {{- with .Values.pod.annotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- include "common.annotations" . | nindent 8 }}
+        {{- with .Values.pod.annotations }}
+        {{- toYaml . | nindent 8 }}    
+        {{- end }}
     spec:
       serviceAccountName: {{ include "domino.serviceAccountName" . }}
       {{- if .Values.pod.nodeSelector }}
@@ -117,7 +120,7 @@ spec:
           resources:
             {{- toYaml .Values.pod.resources | nindent 12 }}
 
-      {{ if .Values.persistence.enabled }}
+      {{ if ( and .Values.persistence.enabled .Values.initContainer.chownData.enabled ) }}
       # this init container is a work-around to change file-system permissions for some local stoarge providers
       initContainers:
         - name: domino-startup

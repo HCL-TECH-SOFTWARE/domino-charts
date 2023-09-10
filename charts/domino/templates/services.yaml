@@ -9,6 +9,8 @@ metadata:
     server: {{ .Values.domino.server.name | lower }}
     type: headless
     {{- include "common.labels" . | nindent 4 }}
+  annotations:
+    {{- include "common.annotations" . | nindent 4 }}
 
 spec:
   type: ClusterIP
@@ -50,6 +52,8 @@ metadata:
     server: {{ .Values.domino.server.name | lower }}
     type: external
     {{- include "common.labels" . | nindent 4 }}
+  annotations:
+    {{- include "common.annotations" . | nindent 4 }}
 
 spec:
   type: {{ .Values.service.type }}
