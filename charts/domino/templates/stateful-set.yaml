@@ -119,6 +119,15 @@ spec:
 
           resources:
             {{- toYaml .Values.pod.resources | nindent 12 }}
+        
+        {{- if not .Values.sidecarContainer.dominolog.enabled }}
+        - name: domino-log
+          image: {{ .Values.sidecarContainer.dominolog.image }}
+          args: [/bin/sh, -c, 'tail -n+1 -F /local/notesdata/IBM_TECHNICAL_SUPPORT/console.log']
+          volumeMounts:
+            - name: dominodata
+              mountPath: /local/
+        {{- end }}
 
       {{ if ( and .Values.persistence.enabled .Values.initContainer.chownData.enabled ) }}
       # this init container is a work-around to change file-system permissions for some local stoarge providers

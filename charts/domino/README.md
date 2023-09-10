@@ -125,11 +125,12 @@ The following table lists the configurable parameters of the Domino chart and th
 | ingress.nomad.enabled | bool | `false` | Should Nomad Web traffic be exposed through Ingress Controller? (It requires a dedicated hostname.) |
 | ingress.nomad.hostname | string | `"domino-nomad.example.com"` | Hostname for Nomad web access (Usually different than a hostname for a classic Domino HTTP access.) |
 | ingress.tls | bool | `false` | Enable TLS in Ingress Rule? (If "true" Ingress will provide handle TLS communication with the clients.) |
+| initContainer.chownData.enabled | bool | `false` | Create an init container to change file-system permissions for some local stoarge providers |
 | install.CustomNotesdataZip | string | `""` | Path (filesystem or URL) to a zip file that will be downloaded and extracted into the dominodata directory |
 | install.idsDir | string | `"/tmp"` | Path in a pod where IDs are copied from a mounted directory |
 | install.idsMountedDir | string | `"/local/ids"` | Path in a pod where IDs are mounted during the pod creation |
 | install.mountIds | bool | `false` | Set "true" to keep existing IDs mounted to the pod.  Set "false" when you do not want to mount existing IDs to the pod anymore.  Tip: use "true" during the first setup, then change to "false". |
-| logs.dominoStdOut | string | `"yes"` | Send Domino console log to the pod's standard output (so it could be read using kubectl logs) |
+| logs.dominoStdOut | string | `"yes"` | Send Domino console log to the pod's standard output (so it could be read using kubectl logs). The value must be "yes" or "no"; NOT true/false. |
 | persistence.enabled | bool | `false` | Should dominodata volume be persistent? Warning: if you specify "false" your Domino data will be DELETED each time you restart the pod! |
 | persistence.size | string | `"4Gi"` | Size of the data volume (/local/notesdata) |
 | persistence.storageClass | string | `""` | Specify the StorageClass used to provision the volume. Must be one of the classes in "kubectl get storageclass".  If not specified, a default StorageClass is used (if exists). |
@@ -153,8 +154,11 @@ The following table lists the configurable parameters of the Domino chart and th
 | service.nrpc.expose | bool | `false` | Should NRPC be exposed directly? |
 | service.nrpc.port | int | `1352` | Exposed NRPC port number (could be 1352) |
 | service.type | string | `"LoadBalancer"` | Service type ("LoadBalancer" or "ClusterIP") |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Should a service account be created? |
 | serviceAccount.name | string | `""` | The name of the service account. A name is generated using the chart name ('domino', by default) if not set and 'create' is true. |
+| sidecarContainer.dominolog.enabled | bool | `true` | Create a sidecar container that prints Domino colnsole.log to standard output. Useful when you set logs.dominoStdOut = "yes" |
+| sidecarContainer.dominolog.image | string | `"registry.access.redhat.com/ubi8/ubi-minimal"` | Image for a logging sidecar container |
 
 ## Maintainers
 

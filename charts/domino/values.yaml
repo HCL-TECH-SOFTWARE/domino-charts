@@ -93,6 +93,8 @@ serviceAccount:
   create: true
   # -- The name of the service account. A name is generated using the chart name ('domino', by default) if not set and 'create' is true.
   name: ""
+  # -- Annotations to add to the service account
+  annotations: {}
 
 pod:
   # -- If set, Domino is deployed only to the node that matches the label. Example: "domino: alpha"
@@ -115,8 +117,22 @@ pod:
       # -- Maximum amount of pod memory
       memory: "4Gi"
 
+initContainer:
+  chownData:
+    # -- Create an init container to change file-system permissions for some local stoarge providers
+    enabled: false
+
+sidecarContainer:
+  dominolog:
+    # -- Create a sidecar container that prints Domino colnsole.log to standard output.
+    # Useful when you set logs.dominoStdOut = "yes"
+    enabled: true
+    # -- Image for a logging sidecar container
+    image: registry.access.redhat.com/ubi8/ubi-minimal
+
 logs:
-  # -- Send Domino console log to the pod's standard output (so it could be read using kubectl logs)
+  # -- Send Domino console log to the pod's standard output (so it could be read using kubectl logs).
+  # The value must be "yes" or "no"; NOT true/false.
   dominoStdOut: "yes"
 
 service:
