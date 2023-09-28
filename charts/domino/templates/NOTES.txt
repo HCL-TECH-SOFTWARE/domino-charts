@@ -9,6 +9,10 @@ Namespace:          {{ $ns }}
 Domino server name: {{ .Values.domino.server.name }}/{{ .Values.domino.server.domainName }}
 Host name:          {{ .Values.domino.network.hostName }}
 
+{{- if .Values.serviceAccount.create }}
+
+Kubernetes Service Account:  {{ include "domino.serviceAccountName" . }}
+{{- end }}
 ----
 
 Please wait a few seconds until the Domino server is fully initialized.

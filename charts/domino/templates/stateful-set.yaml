@@ -31,10 +31,6 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "domino.serviceAccountName" . }}
-      {{- if .Values.pod.nodeSelector }}
-      nodeSelector: 
-        {{- .Values.pod.nodeSelector | toYaml | nindent 8 }}
-      {{- end }}
       imagePullSecrets:
         - name: regcred
       securityContext:
@@ -120,7 +116,7 @@ spec:
           resources:
             {{- toYaml .Values.pod.resources | nindent 12 }}
         
-        {{- if not .Values.sidecarContainer.dominolog.enabled }}
+        {{- if .Values.sidecarContainer.dominolog.enabled }}
         - name: domino-log
           image: {{ .Values.sidecarContainer.dominolog.image }}
           args: [/bin/sh, -c, 'tail -n+1 -F /local/notesdata/IBM_TECHNICAL_SUPPORT/console.log']
@@ -145,6 +141,10 @@ spec:
               mountPath: /local
       {{- end }}
 
+      {{- with .Values.pod.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.pod.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}

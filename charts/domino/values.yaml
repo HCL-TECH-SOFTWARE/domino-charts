@@ -32,7 +32,7 @@ domino:
     # -- Server ID filename. Used when useExistingServerID = true.
     idFileName: server.id
     # -- Domino tasks that you want to run at the server. The content will be set as ServerTasks= in the notes.ini.
-    serverTasks: replica,router,update,amgr,adminp,http,certmgr -ACCEPT_TOU_AUTO_CONFIG,nomad
+    serverTasks: replica,router,update,amgr,adminp,http,nomad
   network:
     # -- Server DNS hostname
     hostName: domino.example.com
@@ -61,6 +61,9 @@ domino:
     CN: ""
     # -- Server DNS hostname or IP address of the existing server.
     hostNameOrIP: ""
+  security:
+    # -- Should a MicroCA be created, with the same name as Domino Organization?
+    createMicroCA: false
   idVault:
     # -- ID Vault password
     idPassword: SecretVaultPassw0rd
@@ -113,9 +116,9 @@ pod:
       memory: "2Gi"
     limits:
       # -- Maximum amount of pod CPU
-      cpu: "3000m"
+      cpu: "4000m"
       # -- Maximum amount of pod memory
-      memory: "4Gi"
+      memory: "6Gi"
 
 initContainer:
   chownData:

@@ -108,10 +108,11 @@ The following table lists the configurable parameters of the Domino chart and th
 | domino.org.idFileName | string | `"cert.id"` | Cert ID filename. Used when useExistingCertifierID = true. |
 | domino.org.orgName | string | `"DemoOrg"` | Organization name ("DemoOrg" in "Domino/DemoOrg @ DemoDomain") |
 | domino.org.useExistingCertifierID | bool | `false` | Set "true" if you want to use existing cert.id |
+| domino.security.createMicroCA | bool | `false` | Should a MicroCA be created, with the same name as Domino Organization? |
 | domino.server.domainName | string | `"DemoDomain"` | Domain name ("DemoDomain" in "Domino/DemoOrg @ DemoDomain") |
 | domino.server.idFileName | string | `"server.id"` | Server ID filename. Used when useExistingServerID = true. |
 | domino.server.name | string | `"Domino"` | Server common name ("Domino" in "Domino/DemoOrg @ DemoDomain") |
-| domino.server.serverTasks | string | `"replica,router,update,amgr,adminp,http,certmgr -ACCEPT_TOU_AUTO_CONFIG,nomad"` | Domino tasks that you want to run at the server. The content will be set as ServerTasks= in the notes.ini. |
+| domino.server.serverTasks | string | `"replica,router,update,amgr,adminp,http,nomad"` | Domino tasks that you want to run at the server. The content will be set as ServerTasks= in the notes.ini. |
 | domino.server.serverTitle | string | `"Demo Server"` | Server title (description) |
 | domino.server.type | string | `"first"` | Server type ("first" or "additional" ) |
 | domino.server.useExistingServerID | bool | `false` | Set "true" if you want to use the existing server.id |
@@ -137,8 +138,8 @@ The following table lists the configurable parameters of the Domino chart and th
 | pod.affinity | object | `{}` | Pod affinity. |
 | pod.annotations | object | `{}` | Annotations to add to the pod definition. Example: "app: domino" |
 | pod.nodeSelector | object | `{}` | If set, Domino is deployed only to the node that matches the label. Example: "domino: alpha" |
-| pod.resources.limits.cpu | string | `"3000m"` | Maximum amount of pod CPU |
-| pod.resources.limits.memory | string | `"4Gi"` | Maximum amount of pod memory |
+| pod.resources.limits.cpu | string | `"4000m"` | Maximum amount of pod CPU |
+| pod.resources.limits.memory | string | `"6Gi"` | Maximum amount of pod memory |
 | pod.resources.requests.cpu | string | `"2000m"` | Minimum amount of pod CPU |
 | pod.resources.requests.memory | string | `"2Gi"` | Minimum amount of pod memory |
 | pod.tolerations | object | `{}` | Pod tollerations. |

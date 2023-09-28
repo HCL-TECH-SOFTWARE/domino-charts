@@ -81,6 +81,18 @@ data:
         },
 
         "security": {
+          {{- if .Values.domino.security.createMicroCA }}
+          "TLSSetup": {
+            "method": "dominoMicroCA",
+            "CADisplayName": "{{ .Values.domino.org.orgName }} CA",
+            "CAOrgName": "{{ .Values.domino.org.orgName }}",
+            "CAKeyType": "ECDSA",
+            "CAExpirationDays": 1096,
+            "orgName": "{{ .Values.domino.org.orgName }}",
+            "TLSKeyType": "RSA2048",
+            "certExpirationDays": 180
+          },
+          {{- end }}
           "ACL": {
             "prohibitAnonymousAccess": true,
             "addLocalDomainAdmins": true
