@@ -68,6 +68,11 @@ domino:
     # -- ID Vault password
     idPassword: SecretVaultPassw0rd
   appConfiguration:
+    daos:
+      # Should DAOS be enabled?
+      enabled: false
+      # Minimum attachment size (in Bytes) to be consolidated by DAOS
+      minObjSize: "256000"
     # -- Filename of the NSF database where the webLoginForm is stored (Example: iwaredir.nsf, domcfg.nsf)
     webLoginFormDB: domcfg.nsf
     # -- Name of the form that should be used as a login form (Example: DWALoginForm, $$LoginUserFormMFA)

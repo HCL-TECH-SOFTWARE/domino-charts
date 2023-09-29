@@ -98,6 +98,8 @@ The following table lists the configurable parameters of the Domino chart and th
 | domino.admin.lastName | string | `"Admin"` | Administrator last name |
 | domino.admin.password | string | `"SecretAdminPassw0rd"` | Admin ID password |
 | domino.admin.useExistingAdminID | bool | `false` | Set "true" if you want to use the existing admin.id |
+| domino.appConfiguration.daos.enabled | bool | `false` |  |
+| domino.appConfiguration.daos.minObjSize | string | `"256000"` |  |
 | domino.appConfiguration.webLoginForm | string | `"$$LoginUserFormMFA"` | Name of the form that should be used as a login form (Example: DWALoginForm, $$LoginUserFormMFA) |
 | domino.appConfiguration.webLoginFormDB | string | `"domcfg.nsf"` | Filename of the NSF database where the webLoginForm is stored (Example: iwaredir.nsf, domcfg.nsf) |
 | domino.existingServer.CN | string | `""` | Server common name of the existing server to use to replicate the directory (example: "AdminServer") |
